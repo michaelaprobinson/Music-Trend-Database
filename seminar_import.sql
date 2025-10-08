@@ -1,22 +1,26 @@
-CREATE DATABASE music_trends;
+
+CREATE DATABASE IF NOT EXISTS music_trends;
 USE music_trends;
 
-CREATE TABLE artists (
-    artist_id INT PRIMARY KEY,
-    artist_name TEXT
+
+CREATE TABLE IF NOT EXISTS artists (
+    artist_id INT AUTO_INCREMENT PRIMARY KEY,
+    artist_name VARCHAR(255) UNIQUE
 );
 
-CREATE TABLE songs (
-    song_id INT PRIMARY KEY,
-    title TEXT,
+
+CREATE TABLE IF NOT EXISTS songs (
+    song_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
     artist_id INT,
-    release_year INT,
-    genre TEXT,
+    release_year YEAR NULL,
+    genre VARCHAR(100) NULL,
     FOREIGN KEY (artist_id) REFERENCES artists(artist_id)
 );
 
-CREATE TABLE chart_performance (
-    id INT PRIMARY KEY,
+
+CREATE TABLE IF NOT EXISTS chart_performance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     song_id INT,
     chart_date DATE,
     song_rank INT,
@@ -25,9 +29,10 @@ CREATE TABLE chart_performance (
     FOREIGN KEY (song_id) REFERENCES songs(song_id)
 );
 
-CREATE TABLE spotify_features (
-    id INT PRIMARY KEY,
-    song_id INT REFERENCES songs(song_id),
+
+CREATE TABLE IF NOT EXISTS spotify_features (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    song_id INT,
     danceability FLOAT,
     energy FLOAT,
     tempo FLOAT,
@@ -35,17 +40,19 @@ CREATE TABLE spotify_features (
     acousticness FLOAT,
     instrumentalness FLOAT,
     liveness FLOAT,
-    speechiness FLOAT
+    speechiness FLOAT,
+    FOREIGN KEY (song_id) REFERENCES songs(song_id)
 );
 
-CREATE TABLE kaggle_billboard (
+
+CREATE TABLE IF NOT EXISTS kaggle_billboard (
     chart_date DATE,
     chart_rank INT,
-    song TEXT,
-    artist TEXT,
+    song VARCHAR(255),
+    artist VARCHAR(255),
     last_week INT,
     peak_rank INT,
     weeks_on_board INT
 );
 
-select
+SHOW TABLES;
